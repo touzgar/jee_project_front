@@ -1,0 +1,46 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h2>Paiements</h2>
+      <p class="subtitle">Suivi des paiements</p>
+    </div>
+    <div class="actions">
+      <button class="btn-primary" (click)="onAdd()">+ Ajouter</button>
+    </div>
+  </div>
+
+  <div class="card" *ngIf="errorMessage">
+    <div class="error">{{ errorMessage }}</div>
+  </div>
+
+  <div class="card" *ngIf="loading">Chargement...</div>
+
+  <div class="card" *ngIf="!loading">
+    <table>
+      <thead>
+        <tr>
+          <th>Commande</th>
+          <th>Date</th>
+          <th>Mode</th>
+          <th>Statut</th>
+          <th *ngIf="authService.isAdmin()">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of paiements">
+          <td>{{ p.commande?.nomCommande }}</td>
+          <td>{{ p.date_paiement | date:'yyyy-MM-dd' }}</td>
+          <td>{{ p.mode }}</td>
+          <td><span [ngClass]="statusClass(p.statut)">{{ p.statut }}</span></td>
+          <td *ngIf="authService.isAdmin()" class="actions-cell">
+            <button class="btn-outline" (click)="onEdit(p.id_paiement)">Modifier</button>
+            <button class="btn-danger" (click)="onDelete(p.id_paiement)">Supprimer</button>
+          </td>
+        </tr>
+        <tr *ngIf="paiements.length === 0">
+          <td [attr.colspan]="authService.isAdmin() ? 5 : 4" class="empty">Aucun paiement trouvé.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

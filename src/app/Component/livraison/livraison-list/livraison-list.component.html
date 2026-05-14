@@ -1,0 +1,61 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h2>Livraisons</h2>
+      <p class="subtitle">Suivi des livraisons</p>
+    </div>
+    <div class="actions">
+      <button class="btn-primary" *ngIf="authService.isAdmin()" (click)="onAdd()">
+        + Ajouter
+      </button>
+    </div>
+  </div>
+
+  <div class="card" *ngIf="errorMessage">
+    <div class="error">{{ errorMessage }}</div>
+  </div>
+
+  <div class="card" *ngIf="loading">Chargement...</div>
+
+  <div class="card" *ngIf="!loading">
+    <table>
+      <thead>
+        <tr>
+          <th>Commande</th>
+          <th>Transporteur</th>
+          <th>Date</th>
+          <th>Coût</th>
+          <th>Statut</th>
+          <th *ngIf="authService.isAdmin()">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let l of livraisons">
+          <td>{{ l.commande?.nomCommande }}</td>
+          <td>{{ l.transporteur?.nom_transporteur }}</td>
+          <td>{{ l.date_livraison | date:'yyyy-MM-dd' }}</td>
+          <td>{{ l.cout | number:'1.2-2' }}</td>
+          <td>
+            <span [ngClass]="statusClass(l.statut)">{{ l.statut }}</span>
+            <ng-container *ngIf="authService.isAdmin()">
+              <select
+                class="status-select"
+                [ngModel]="l.statut"
+                (ngModelChange)="onStatusChange(l.id_livraison, $event)"
+              >
+                <option *ngFor="let s of statuses" [ngValue]="s">{{ s }}</option>
+              </select>
+            </ng-container>
+          </td>
+          <td *ngIf="authService.isAdmin()" class="actions-cell">
+            <button class="btn-outline" (click)="onEdit(l.id_livraison)">Modifier</button>
+            <button class="btn-danger" (click)="onDelete(l.id_livraison)">Supprimer</button>
+          </td>
+        </tr>
+        <tr *ngIf="livraisons.length === 0">
+          <td [attr.colspan]="authService.isAdmin() ? 6 : 5" class="empty">Aucune livraison trouvée.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h2>Transporteurs</h2>
+      <p class="subtitle">Gestion des transporteurs</p>
+    </div>
+    <div class="actions">
+      <input
+        type="text"
+        placeholder="Rechercher..."
+        [(ngModel)]="searchTerm"
+        (input)="applyFilter()"
+      />
+      <button class="btn-primary" *ngIf="authService.isAdmin()" (click)="onAdd()">
+        + Ajouter
+      </button>
+    </div>
+  </div>
+
+  <div class="card" *ngIf="errorMessage">
+    <div class="error">{{ errorMessage }}</div>
+  </div>
+
+  <div class="card" *ngIf="loading">Chargement...</div>
+
+  <div class="card" *ngIf="!loading">
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Téléphone</th>
+          <th>Note</th>
+          <th *ngIf="authService.isAdmin()">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of filtered">
+          <td>{{ t.nom_transporteur }}</td>
+          <td>{{ t.telephone }}</td>
+          <td>{{ t.note }}</td>
+          <td *ngIf="authService.isAdmin()" class="actions-cell">
+            <button class="btn-outline" (click)="onEdit(t.id_transporteur)">Modifier</button>
+            <button class="btn-danger" (click)="onDelete(t.id_transporteur)">Supprimer</button>
+          </td>
+        </tr>
+        <tr *ngIf="filtered.length === 0">
+          <td [attr.colspan]="authService.isAdmin() ? 4 : 3" class="empty">Aucun transporteur trouvé.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

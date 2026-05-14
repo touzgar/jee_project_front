@@ -1,0 +1,410 @@
+<!-- Navbar -->
+<header class="navbar">
+  <div class="logo">
+    <span class="logo-icon">📦</span>
+    <span class="logo-text">FastTrack</span>
+  </div>
+  <nav>
+    <ul>
+      <li><a (click)="scrollToSection('home')">Accueil</a></li>
+      <li><a (click)="scrollToSection('features')">Fonctionnalités</a></li>
+      <li><a (click)="scrollToSection('stats')">Statistiques</a></li>
+      <li><a (click)="scrollToSection('products')">Produits</a></li>
+      <li><a (click)="scrollToSection('contact')">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="nav-actions">
+    <button class="btn-text" (click)="openAuthModal(true)">Connexion</button>
+    <button class="btn-primary" (click)="openAuthModal(false)">Commencer</button>
+  </div>
+</header>
+
+<!-- Hero Section -->
+<section id="home" class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🚀 Plateforme de Gestion Logistique</div>
+    <h1>Gérez votre chaîne logistique <span class="gradient-text">intelligemment</span></h1>
+    <p>Plateforme complète de gestion des commandes, livraisons et paiements. Suivez vos opérations en temps réel avec des outils puissants et intuitifs.</p>
+    <div class="hero-buttons">
+      <button class="btn-primary large" (click)="openAuthModal(true)">
+        <span>Accéder au Dashboard</span>
+        <span class="arrow">→</span>
+      </button>
+      <button class="btn-secondary large" (click)="scrollToSection('features')">
+        <span>Découvrir</span>
+      </button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">{{ stats.orders | number }}</div>
+        <div class="stat-label">Commandes</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">{{ stats.deliveries | number }}</div>
+        <div class="stat-label">Livraisons</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">{{ stats.suppliers }}</div>
+        <div class="stat-label">Fournisseurs</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">{{ stats.products | number }}</div>
+        <div class="stat-label">Produits</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-image">
+    <div class="dashboard-preview">
+      <div class="preview-header">
+        <div class="preview-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="preview-title">Dashboard</div>
+      </div>
+      <div class="preview-content">
+        <div class="preview-card">
+          <div class="card-icon">📦</div>
+          <div class="card-info">
+            <div class="card-label">Commandes actives</div>
+            <div class="card-value">{{ stats.orders }}</div>
+          </div>
+          <div class="card-trend up">Live</div>
+        </div>
+        <div class="preview-card">
+          <div class="card-icon">🚚</div>
+          <div class="card-info">
+            <div class="card-label">En livraison</div>
+            <div class="card-value">{{ stats.deliveries }}</div>
+          </div>
+          <div class="card-trend up">Live</div>
+        </div>
+        <div class="preview-card">
+          <div class="card-icon">📦</div>
+          <div class="card-info">
+            <div class="card-label">Produits</div>
+            <div class="card-value">{{ stats.products }}</div>
+          </div>
+          <div class="card-trend up">Live</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="features">
+  <div class="section-header">
+    <span class="section-badge">Fonctionnalités</span>
+    <h2>Tout ce dont vous avez besoin</h2>
+    <p>Une plateforme complète pour gérer l'ensemble de votre chaîne logistique</p>
+  </div>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon">📋</div>
+      <h3>Gestion des Commandes</h3>
+      <p>Créez, suivez et validez vos commandes en quelques clics. Workflow de validation intégré.</p>
+      <ul class="feature-list">
+        <li>✓ Création rapide</li>
+        <li>✓ Validation multi-niveaux</li>
+        <li>✓ Historique complet</li>
+      </ul>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📦</div>
+      <h3>Gestion des Produits</h3>
+      <p>Catalogue produits avec gestion des stocks et alertes automatiques de réapprovisionnement.</p>
+      <ul class="feature-list">
+        <li>✓ Alertes stock faible</li>
+        <li>✓ Catégorisation</li>
+        <li>✓ Multi-fournisseurs</li>
+      </ul>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🚚</div>
+      <h3>Suivi des Livraisons</h3>
+      <p>Suivez vos livraisons en temps réel avec assignation automatique des transporteurs.</p>
+      <ul class="feature-list">
+        <li>✓ Suivi en temps réel</li>
+        <li>✓ Gestion transporteurs</li>
+        <li>✓ Calcul des coûts</li>
+      </ul>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💳</div>
+      <h3>Gestion des Paiements</h3>
+      <p>Suivez tous vos paiements avec différents modes et statuts de paiement.</p>
+      <ul class="feature-list">
+        <li>✓ Multi-modes</li>
+        <li>✓ Suivi des statuts</li>
+        <li>✓ Rapports financiers</li>
+      </ul>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏢</div>
+      <h3>Gestion Fournisseurs</h3>
+      <p>Base de données complète de vos fournisseurs avec historique des commandes.</p>
+      <ul class="feature-list">
+        <li>✓ Profils détaillés</li>
+        <li>✓ Historique achats</li>
+        <li>✓ Évaluation</li>
+      </ul>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h3>Tableaux de Bord</h3>
+      <p>Visualisez vos données avec des graphiques interactifs et des statistiques en temps réel.</p>
+      <ul class="feature-list">
+        <li>✓ Graphiques dynamiques</li>
+        <li>✓ KPIs en temps réel</li>
+        <li>✓ Exports PDF</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section id="stats" class="stats-section">
+  <div class="stats-container">
+    <div class="stats-content">
+      <h2>Des chiffres qui parlent</h2>
+      <p>Statistiques en temps réel de votre plateforme</p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-icon">📦</div>
+        <div class="stat-number">{{ stats.orders | number }}</div>
+        <div class="stat-text">Commandes traitées</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-icon">🚚</div>
+        <div class="stat-number">{{ stats.deliveries | number }}</div>
+        <div class="stat-text">Livraisons effectuées</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-icon">🏢</div>
+        <div class="stat-number">{{ stats.suppliers }}</div>
+        <div class="stat-text">Fournisseurs partenaires</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-icon">📊</div>
+        <div class="stat-number">{{ stats.products | number }}</div>
+        <div class="stat-text">Produits référencés</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Products Section -->
+<section id="products" class="products">
+  <div class="section-header">
+    <span class="section-badge">Nos Solutions</span>
+    <h2>Choisissez votre formule</h2>
+    <p>Des solutions adaptées à chaque besoin</p>
+  </div>
+  <div class="product-grid">
+    <div class="product-card">
+      <div class="product-badge">Starter</div>
+      <h3>FastTrack Basic</h3>
+      <div class="product-price">
+        <span class="price">Gratuit</span>
+        <span class="period">/ mois</span>
+      </div>
+      <p>Parfait pour démarrer</p>
+      <ul class="product-features">
+        <li>✓ 100 commandes/mois</li>
+        <li>✓ 50 produits</li>
+        <li>✓ 5 fournisseurs</li>
+        <li>✓ Support email</li>
+        <li>✗ Rapports avancés</li>
+        <li>✗ API access</li>
+      </ul>
+      <button class="btn-outline" (click)="openAuthModal(false)">Commencer</button>
+    </div>
+    <div class="product-card featured">
+      <div class="product-badge popular">Populaire</div>
+      <h3>FastTrack Pro</h3>
+      <div class="product-price">
+        <span class="price">49€</span>
+        <span class="period">/ mois</span>
+      </div>
+      <p>Pour les entreprises en croissance</p>
+      <ul class="product-features">
+        <li>✓ Commandes illimitées</li>
+        <li>✓ Produits illimités</li>
+        <li>✓ Fournisseurs illimités</li>
+        <li>✓ Support prioritaire</li>
+        <li>✓ Rapports avancés</li>
+        <li>✓ API access</li>
+      </ul>
+      <button class="btn-primary" (click)="openAuthModal(false)">Essayer gratuitement</button>
+    </div>
+    <div class="product-card">
+      <div class="product-badge">Enterprise</div>
+      <h3>FastTrack Enterprise</h3>
+      <div class="product-price">
+        <span class="price">Sur mesure</span>
+      </div>
+      <p>Solution personnalisée</p>
+      <ul class="product-features">
+        <li>✓ Tout de Pro</li>
+        <li>✓ Multi-utilisateurs</li>
+        <li>✓ Marque blanche</li>
+        <li>✓ Support 24/7</li>
+        <li>✓ Formation dédiée</li>
+        <li>✓ SLA garanti</li>
+      </ul>
+      <button class="btn-outline" (click)="scrollToSection('contact')">Nous contacter</button>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact">
+  <div class="contact-container">
+    <div class="contact-info">
+      <h2>Prêt à commencer ?</h2>
+      <p>Rejoignez des centaines d'entreprises qui font confiance à FastTrack pour gérer leur logistique.</p>
+      <div class="contact-details">
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value">contact@fasttrack.com</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <div class="contact-label">Téléphone</div>
+            <div class="contact-value">+212 5XX-XXXXXX</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-label">Adresse</div>
+            <div class="contact-value">Casablanca, Maroc</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form-wrapper">
+      <form class="contact-form" (submit)="$event.preventDefault()">
+        <input type="text" placeholder="Votre nom" required>
+        <input type="email" placeholder="Votre email" required>
+        <input type="text" placeholder="Sujet" required>
+        <textarea placeholder="Votre message" rows="5" required></textarea>
+        <button type="submit" class="btn-primary">Envoyer le message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-section">
+      <div class="footer-logo">
+        <span class="logo-icon">📦</span>
+        <span class="logo-text">FastTrack</span>
+      </div>
+      <p>La solution complète pour gérer votre chaîne logistique efficacement.</p>
+    </div>
+    <div class="footer-section">
+      <h4>Produit</h4>
+      <a (click)="scrollToSection('features')">Fonctionnalités</a>
+      <a (click)="scrollToSection('products')">Tarifs</a>
+      <a href="#">Documentation</a>
+      <a href="#">API</a>
+    </div>
+    <div class="footer-section">
+      <h4>Entreprise</h4>
+      <a href="#">À propos</a>
+      <a href="#">Blog</a>
+      <a href="#">Carrières</a>
+      <a (click)="scrollToSection('contact')">Contact</a>
+    </div>
+    <div class="footer-section">
+      <h4>Légal</h4>
+      <a href="#">Confidentialité</a>
+      <a href="#">Conditions</a>
+      <a href="#">Cookies</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 FastTrack Logistics. Tous droits réservés.</p>
+    <div class="footer-social">
+      <a href="#" class="social-link">Twitter</a>
+      <a href="#" class="social-link">LinkedIn</a>
+      <a href="#" class="social-link">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Auth Modal -->
+<div class="modal-overlay" *ngIf="showAuthModal" (click)="closeAuthModal()">
+  <div class="modal-container" (click)="$event.stopPropagation()" [class.right-panel-active]="!isLoginMode">
+    
+    <!-- Sign Up Form -->
+    <div class="form-container sign-up-container">
+      <form (submit)="$event.preventDefault(); onRegister()">
+        <h2>Créer un compte</h2>
+        <span class="form-subtitle">Rejoignez FastTrack aujourd'hui</span>
+        <input type="text" placeholder="Nom d'utilisateur" [(ngModel)]="registerUsername" name="registerUsername" required />
+        <input type="email" placeholder="Email" [(ngModel)]="registerEmail" name="registerEmail" required />
+        <div class="password-input-wrapper">
+          <input [type]="showRegisterPassword ? 'text' : 'password'" placeholder="Mot de passe" [(ngModel)]="registerPassword" name="registerPassword" required />
+          <button type="button" class="toggle-password" (click)="toggleRegisterPassword()">
+            {{ showRegisterPassword ? '👁️' : '👁️‍🗨️' }}
+          </button>
+        </div>
+        <div class="error-message" *ngIf="errorMessage && !isLoginMode">{{ errorMessage }}</div>
+        <button class="btn-primary" type="submit" [disabled]="loading">
+          <span *ngIf="!loading">S'inscrire</span>
+          <span *ngIf="loading">Chargement...</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- Login Form -->
+    <div class="form-container sign-in-container">
+      <form (submit)="$event.preventDefault(); onLogin()">
+        <h2>Connexion</h2>
+        <span class="form-subtitle">Accédez à votre dashboard</span>
+        <input type="text" placeholder="Nom d'utilisateur" [(ngModel)]="loginUsername" name="loginUsername" required />
+        <div class="password-input-wrapper">
+          <input [type]="showLoginPassword ? 'text' : 'password'" placeholder="Mot de passe" [(ngModel)]="loginPassword" name="loginPassword" required />
+          <button type="button" class="toggle-password" (click)="toggleLoginPassword()">
+            {{ showLoginPassword ? '👁️' : '👁️‍🗨️' }}
+          </button>
+        </div>
+        <div class="demo-credentials">
+          <small>Demo: admin/123 ou user1/123</small>
+        </div>
+        <div class="error-message" *ngIf="errorMessage && isLoginMode">{{ errorMessage }}</div>
+        <button class="btn-primary" type="submit" [disabled]="loading">
+          <span *ngIf="!loading">Se connecter</span>
+          <span *ngIf="loading">Connexion...</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h2>Bon retour !</h2>
+          <p>Connectez-vous pour accéder à votre dashboard et gérer vos opérations</p>
+          <button class="btn-secondary outline" (click)="toggleAuthMode()">Se connecter</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h2>Bienvenue !</h2>
+          <p>Créez votre compte et commencez à optimiser votre chaîne logistique dès aujourd'hui</p>
+          <button class="btn-secondary outline" (click)="toggleAuthMode()">S'inscrire</button>
+        </div>
+      </div>
+    </div>
+    
+    <button class="close-modal" (click)="closeAuthModal()">×</button>
+  </div>
+</div>

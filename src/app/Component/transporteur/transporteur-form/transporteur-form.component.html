@@ -1,0 +1,37 @@
+<div class="page">
+  <div class="card">
+    <h2>{{ isEdit ? 'Modifier Transporteur' : 'Créer Transporteur' }}</h2>
+    <p class="subtitle">Tous les champs sont obligatoires</p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="grid">
+        <div class="form-group">
+          <label>Nom</label>
+          <input formControlName="nom_transporteur" type="text" />
+          <small *ngIf="form.get('nom_transporteur')?.touched && form.get('nom_transporteur')?.invalid">Champ requis</small>
+        </div>
+
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input formControlName="telephone" type="text" />
+          <small *ngIf="form.get('telephone')?.touched && form.get('telephone')?.invalid">Champ requis</small>
+        </div>
+
+        <div class="form-group">
+          <label>Note</label>
+          <input formControlName="note" type="text" />
+          <small *ngIf="form.get('note')?.touched && form.get('note')?.invalid">Champ requis</small>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" type="submit" [disabled]="loading">
+          {{ loading ? 'Enregistrement...' : (isEdit ? 'Mettre à jour' : 'Créer') }}
+        </button>
+        <button class="btn-outline" type="button" (click)="onCancel()">Annuler</button>
+      </div>
+
+      <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h2>Commandes</h2>
+      <p class="subtitle">Suivi et validation des commandes</p>
+    </div>
+    <div class="actions">
+      <select [(ngModel)]="statusFilter" (change)="applyFilter()">
+        <option value="ALL">Tous les statuts</option>
+        <option value="PENDING">En attente</option>
+        <option value="VALIDATED">Validée</option>
+        <option value="REJECTED">Rejetée</option>
+      </select>
+
+      <button class="btn-primary" (click)="onAdd()">+ Nouvelle commande</button>
+    </div>
+  </div>
+
+  <div class="card" *ngIf="errorMessage">
+    <div class="error">{{ errorMessage }}</div>
+  </div>
+
+  <div class="card" *ngIf="loading">Chargement...</div>
+
+  <div class="card" *ngIf="!loading">
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Date</th>
+          <th>Statut</th>
+          <th>Montant</th>
+          <th>Validation</th>
+          <th>Date validation</th>
+          <th>Commentaire</th>
+          <th>Utilisateur</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of filtered" [class.low]="c.validationStatus === 'PENDING'">
+          <td>{{ c.nomCommande }}</td>
+          <td>{{ c.date_commande | date:'yyyy-MM-dd' }}</td>
+          <td>{{ c.status_commande ? 'Active' : 'Inactive' }}</td>
+          <td>{{ c.montant_commande | number:'1.2-2' }}</td>
+          <td><span [ngClass]="statusClass(c.validationStatus)">{{ c.validationStatus }}</span></td>
+          <td>{{ c.validationDate | date:'yyyy-MM-dd' }}</td>
+          <td>{{ c.validationComment }}</td>
+          <td>{{ c.user?.username }}</td>
+          <td class="actions-cell">
+            <button class="btn-info" (click)="onView(c.id_commande)">👁️ Voir</button>
+            <button class="btn-outline" (click)="onEdit(c.id_commande)">Modifier</button>
+            <button class="btn-danger" (click)="onDelete(c.id_commande)">Supprimer</button>
+
+            <ng-container *ngIf="authService.isAdmin() && c.validationStatus === 'PENDING'">
+              <button class="btn-validate" (click)="openModal(c.id_commande, 'validate')">Valider</button>
+              <button class="btn-reject" (click)="openModal(c.id_commande, 'reject')">Rejeter</button>
+            </ng-container>
+          </td>
+        </tr>
+        <tr *ngIf="filtered.length === 0">
+          <td colspan="9" class="empty">Aucune commande trouvée.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal" *ngIf="modalOpen">
+    <div class="modal-content">
+      <h3>{{ modalAction === 'validate' ? 'Valider' : 'Rejeter' }} la commande</h3>
+      <textarea [(ngModel)]="validationComment" placeholder="Commentaire de validation" rows="4"></textarea>
+      <div class="modal-actions">
+        <button class="btn-outline" (click)="closeModal()">Annuler</button>
+        <button class="btn-validate" *ngIf="modalAction === 'validate'" (click)="submitValidation()">Valider</button>
+        <button class="btn-reject" *ngIf="modalAction === 'reject'" (click)="submitValidation()">Rejeter</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<div class="low-stock" *ngIf="lowStock.length > 0">
+  <h3>⚠ Produits en stock faible</h3>
+  <div class="cards">
+    <div class="card" *ngFor="let p of lowStock">
+      <div class="title">{{ p.nom_produit }}</div>
+      <div class="meta">Fournisseur: {{ p.fournisseur.nom_fournisseur }}</div>
+      <div class="stock">Stock: {{ p.stock_actuel }} / Min: {{ p.stock_minimum }}</div>
+    </div>
+  </div>
+</div>

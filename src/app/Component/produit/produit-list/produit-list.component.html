@@ -1,0 +1,68 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h2>Produits</h2>
+      <p class="subtitle">Gestion des produits et stocks</p>
+    </div>
+    <div class="actions">
+      <input
+        type="text"
+        placeholder="Rechercher..."
+        [(ngModel)]="searchTerm"
+        (input)="applyFilter()"
+      />
+
+      <select [(ngModel)]="selectedFournisseurId" (change)="applyFilter()">
+        <option value="all">Tous fournisseurs</option>
+        <option *ngFor="let f of fournisseurs" [ngValue]="f.id_fournisseur">
+          {{ f.nom_fournisseur }}
+        </option>
+      </select>
+
+      <button class="btn-primary" *ngIf="authService.isAdmin()" (click)="onAdd()">
+        + Ajouter
+      </button>
+    </div>
+  </div>
+
+  <app-produit-low-stock></app-produit-low-stock>
+
+  <div class="card" *ngIf="errorMessage">
+    <div class="error">{{ errorMessage }}</div>
+  </div>
+
+  <div class="card" *ngIf="loading">Chargement...</div>
+
+  <div class="card" *ngIf="!loading">
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Description</th>
+          <th>Prix</th>
+          <th>Stock actuel</th>
+          <th>Stock minimum</th>
+          <th>Fournisseur</th>
+          <th *ngIf="authService.isAdmin()">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of filteredProduits" [class.low-stock]="isLowStock(p)">
+          <td>{{ p.nom_produit }}</td>
+          <td>{{ p.description }}</td>
+          <td>{{ p.prix_unitaire | number:'1.2-2' }}</td>
+          <td>{{ p.stock_actuel }}</td>
+          <td>{{ p.stock_minimum }}</td>
+          <td>{{ p.fournisseur?.nom_fournisseur }}</td>
+          <td *ngIf="authService.isAdmin()" class="actions-cell">
+            <button class="btn-outline" (click)="onEdit(p.id_produit)">Modifier</button>
+            <button class="btn-danger" (click)="onDelete(p.id_produit)">Supprimer</button>
+          </td>
+        </tr>
+        <tr *ngIf="filteredProduits.length === 0">
+          <td [attr.colspan]="authService.isAdmin() ? 7 : 6" class="empty">Aucun produit trouvé.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

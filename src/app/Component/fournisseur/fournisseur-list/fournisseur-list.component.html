@@ -1,0 +1,81 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h2>Fournisseurs</h2>
+      <p class="subtitle">Liste complète des fournisseurs</p>
+    </div>
+    <div class="actions">
+      <button class="btn-primary" *ngIf="authService.isAdmin()" (click)="onAdd()">
+        + Ajouter
+      </button>
+    </div>
+  </div>
+
+  <!-- Search and Filter Section -->
+  <div class="card filters-card">
+    <div class="filters-row">
+      <div class="filter-group">
+        <label>Rechercher par nom</label>
+        <div class="search-box">
+          <input
+            type="text"
+            placeholder="Nom du fournisseur..."
+            [(ngModel)]="searchTerm"
+            (keyup.enter)="onSearchByName()"
+          />
+          <button class="btn-search" (click)="onSearchByName()">🔍 Rechercher</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label>Filtrer par pays</label>
+        <select [(ngModel)]="selectedPays" (change)="onFilterByPays()">
+          <option value="">Tous les pays</option>
+          <option *ngFor="let pays of countries" [value]="pays">{{ pays }}</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>&nbsp;</label>
+        <button class="btn-outline" (click)="clearFilters()">🔄 Réinitialiser</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" *ngIf="errorMessage">
+    <div class="error">{{ errorMessage }}</div>
+  </div>
+
+  <div class="card" *ngIf="loading">Chargement...</div>
+
+  <div class="card" *ngIf="!loading">
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Téléphone</th>
+          <th>Adresse</th>
+          <th>Pays</th>
+          <th *ngIf="authService.isAdmin()">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let f of filteredFournisseurs">
+          <td>{{ f.nom_fournisseur }}</td>
+          <td>{{ f.email }}</td>
+          <td>{{ f.telephone }}</td>
+          <td>{{ f.adresse }}</td>
+          <td>{{ f.pays }}</td>
+          <td *ngIf="authService.isAdmin()" class="actions-cell">
+            <button class="btn-outline" (click)="onEdit(f.id_fournisseur)">Modifier</button>
+            <button class="btn-danger" (click)="onDelete(f.id_fournisseur)">Supprimer</button>
+          </td>
+        </tr>
+        <tr *ngIf="filteredFournisseurs.length === 0">
+          <td [attr.colspan]="authService.isAdmin() ? 6 : 5" class="empty">Aucun fournisseur trouvé.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

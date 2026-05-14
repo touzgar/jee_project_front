@@ -1,0 +1,57 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h2>Utilisateurs</h2>
+      <p class="subtitle">Gestion des comptes (ADMIN uniquement)</p>
+    </div>
+    <div class="actions">
+      <input
+        type="text"
+        placeholder="Rechercher..."
+        [(ngModel)]="searchTerm"
+        (input)="applyFilter()"
+      />
+      <button class="btn-primary" (click)="onEdit(0)" style="display:none"></button>
+    </div>
+  </div>
+
+  <div class="card" *ngIf="errorMessage">
+    <div class="error">{{ errorMessage }}</div>
+  </div>
+
+  <div class="card" *ngIf="loading">Chargement...</div>
+
+  <div class="card" *ngIf="!loading">
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Password</th>
+          <th>Enabled</th>
+          <th>Roles</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of filtered">
+          <td>{{ u.username }}</td>
+          <td>{{ u.email }}</td>
+          <td>{{ u.password }}</td>
+          <td>{{ u.enabled ? 'Actif' : 'Inactif' }}</td>
+          <td>{{ roleNames(u) }}</td>
+          <td class="actions-cell">
+            <button class="btn-outline" (click)="onEdit(u.userId)">Modifier</button>
+            <button class="btn-outline" (click)="toggleEnabled(u)">
+              {{ u.enabled ? 'Désactiver' : 'Activer' }}
+            </button>
+            <button class="btn-danger" (click)="deleteUser(u.userId)">Supprimer</button>
+          </td>
+        </tr>
+        <tr *ngIf="filtered.length === 0">
+          <td colspan="6" class="empty">Aucun utilisateur trouvé.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="page">
+  <div class="card">
+    <h2>{{ isEdit ? 'Modifier Produit' : 'Créer Produit' }}</h2>
+    <p class="subtitle">Veuillez renseigner tous les champs</p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="grid">
+        <div class="form-group">
+          <label>Nom du produit</label>
+          <input formControlName="nom_produit" type="text" />
+          <small *ngIf="form.get('nom_produit')?.touched && form.get('nom_produit')?.invalid">Champ requis</small>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <input formControlName="description" type="text" />
+          <small *ngIf="form.get('description')?.touched && form.get('description')?.invalid">Champ requis</small>
+        </div>
+
+        <div class="form-group">
+          <label>Prix unitaire</label>
+          <input formControlName="prix_unitaire" type="number" />
+          <small *ngIf="form.get('prix_unitaire')?.touched && form.get('prix_unitaire')?.invalid">Valeur invalide</small>
+        </div>
+
+        <div class="form-group">
+          <label>Stock actuel</label>
+          <input formControlName="stock_actuel" type="number" />
+          <small *ngIf="form.get('stock_actuel')?.touched && form.get('stock_actuel')?.invalid">Valeur invalide</small>
+        </div>
+
+        <div class="form-group">
+          <label>Stock minimum</label>
+          <input formControlName="stock_minimum" type="number" />
+          <small *ngIf="form.get('stock_minimum')?.touched && form.get('stock_minimum')?.invalid">Valeur invalide</small>
+        </div>
+
+        <div class="form-group">
+          <label>Catégorie</label>
+          <input formControlName="categorie" type="text" />
+          <small *ngIf="form.get('categorie')?.touched && form.get('categorie')?.invalid">Champ requis</small>
+        </div>
+
+        <div class="form-group">
+          <label>Fournisseur</label>
+          <select formControlName="fournisseurId">
+            <option [ngValue]="null">Sélectionner un fournisseur</option>
+            <option *ngFor="let f of fournisseurs" [ngValue]="f.id_fournisseur">
+              {{ f.nom_fournisseur }}
+            </option>
+          </select>
+          <small *ngIf="form.get('fournisseurId')?.touched && form.get('fournisseurId')?.invalid">Champ requis</small>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" type="submit" [disabled]="loading">
+          {{ loading ? 'Enregistrement...' : (isEdit ? 'Mettre à jour' : 'Créer') }}
+        </button>
+        <button class="btn-outline" type="button" (click)="onCancel()">Annuler</button>
+      </div>
+
+      <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+    </form>
+  </div>
+</div>

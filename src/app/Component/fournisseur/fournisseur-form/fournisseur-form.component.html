@@ -1,0 +1,59 @@
+<div class="page">
+  <div class="card">
+    <h2>{{ isEdit ? 'Modifier Fournisseur' : 'Créer Fournisseur' }}</h2>
+    <p class="subtitle">Tous les champs sont obligatoires</p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="grid">
+        <div class="form-group">
+          <label>Nom du fournisseur</label>
+          <input formControlName="nom_fournisseur" type="text" />
+          <small *ngIf="form.get('nom_fournisseur')?.touched && form.get('nom_fournisseur')?.invalid">
+            Champ requis
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input formControlName="email" type="email" />
+          <small *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+            Email invalide
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input formControlName="telephone" type="text" />
+          <small *ngIf="form.get('telephone')?.touched && form.get('telephone')?.invalid">
+            Champ requis
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Adresse</label>
+          <input formControlName="adresse" type="text" />
+          <small *ngIf="form.get('adresse')?.touched && form.get('adresse')?.invalid">
+            Champ requis
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Pays</label>
+          <input formControlName="pays" type="text" />
+          <small *ngIf="form.get('pays')?.touched && form.get('pays')?.invalid">
+            Champ requis
+          </small>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" type="submit" [disabled]="loading">
+          {{ loading ? 'Enregistrement...' : (isEdit ? 'Mettre à jour' : 'Créer') }}
+        </button>
+        <button class="btn-outline" type="button" (click)="onCancel()">Annuler</button>
+      </div>
+
+      <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+    </form>
+  </div>
+</div>

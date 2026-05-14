@@ -1,0 +1,153 @@
+<div class="home">
+  <!-- Loading Indicator -->
+  <div *ngIf="loading" class="loading-overlay">
+    <div class="spinner"></div>
+    <p>Chargement des statistiques...</p>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="stats-grid">
+    <div class="card stat blue">
+      <div class="stat-icon">📦</div>
+      <div class="stat-content">
+        <div class="label">Total Commandes</div>
+        <div class="value">{{ totalCommandes }}</div>
+      </div>
+    </div>
+    
+    <div class="card stat orange">
+      <div class="stat-icon">⏳</div>
+      <div class="stat-content">
+        <div class="label">Commandes en attente</div>
+        <div class="value">{{ pendingCommandes }}</div>
+      </div>
+    </div>
+    
+    <div class="card stat green">
+      <div class="stat-icon">📊</div>
+      <div class="stat-content">
+        <div class="label">Total Produits</div>
+        <div class="value">{{ totalProduits }}</div>
+      </div>
+    </div>
+    
+    <div class="card stat red">
+      <div class="stat-icon">⚠️</div>
+      <div class="stat-content">
+        <div class="label">Stock faible</div>
+        <div class="value">{{ lowStockCount }}</div>
+      </div>
+    </div>
+    
+    <div class="card stat purple">
+      <div class="stat-icon">🏢</div>
+      <div class="stat-content">
+        <div class="label">Total Fournisseurs</div>
+        <div class="value">{{ totalFournisseurs }}</div>
+      </div>
+    </div>
+    
+    <div class="card stat teal">
+      <div class="stat-icon">🚚</div>
+      <div class="stat-content">
+        <div class="label">Total Livraisons</div>
+        <div class="value">{{ totalLivraisons }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="charts-grid">
+    <div class="card chart-card">
+      <div class="chart-container">
+        <canvas #commandesChart></canvas>
+      </div>
+    </div>
+    
+    <div class="card chart-card">
+      <div class="chart-container">
+        <canvas #livraisonsChart></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data Tables Section -->
+  <div class="grid">
+    <div class="card table-card">
+      <div class="card-header">
+        <h3>📋 Commandes récentes</h3>
+        <span class="badge">{{ recentCommandes.length }} commandes</span>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Date</th>
+              <th>Montant</th>
+              <th>Statut</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of recentCommandes">
+              <td>
+                <div class="table-cell-main">{{ c.nomCommande }}</div>
+              </td>
+              <td>{{ c.date_commande | date:'dd/MM/yyyy' }}</td>
+              <td>
+                <span class="amount">{{ c.montant_commande | number:'1.2-2' }} DH</span>
+              </td>
+              <td>
+                <span class="badge" [ngClass]="getStatusBadgeClass(c.validationStatus)">
+                  {{ getStatusLabel(c.validationStatus) }}
+                </span>
+              </td>
+            </tr>
+            <tr *ngIf="recentCommandes.length === 0 && !loading">
+              <td colspan="4" class="empty">Aucune commande récente.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card alert-card">
+      <div class="card-header">
+        <h3>⚠️ Alertes stock faible</h3>
+        <span class="badge badge-danger" *ngIf="lowStockCount > 0">{{ lowStockCount }} alertes</span>
+        <span class="badge badge-success" *ngIf="lowStockCount === 0">Aucune alerte</span>
+      </div>
+      <div class="alerts-wrapper">
+        <div class="alerts" *ngIf="lowStockProducts.length > 0">
+          <div class="alert" *ngFor="let p of lowStockProducts">
+            <div class="alert-header">
+              <div class="title">{{ p.nom_produit }}</div>
+              <div class="alert-badge">
+                <span class="stock-indicator critical">Critique</span>
+              </div>
+            </div>
+            <div class="alert-body">
+              <div class="meta">
+                <span class="meta-label">Stock actuel:</span>
+                <span class="meta-value critical">{{ p.stock_actuel }}</span>
+              </div>
+              <div class="meta">
+                <span class="meta-label">Stock minimum:</span>
+                <span class="meta-value">{{ p.stock_minimum }}</span>
+              </div>
+              <div class="meta" *ngIf="p.fournisseur">
+                <span class="meta-label">Fournisseur:</span>
+                <span class="meta-value">{{ p.fournisseur.nom_fournisseur }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="empty-state" *ngIf="lowStockProducts.length === 0 && !loading">
+          <div class="empty-icon">✅</div>
+          <p>Aucune alerte de stock faible</p>
+          <small>Tous les produits ont un stock suffisant</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

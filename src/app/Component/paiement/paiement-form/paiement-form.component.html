@@ -1,0 +1,50 @@
+<div class="page">
+  <div class="card">
+    <h2>{{ isEdit ? 'Modifier Paiement' : 'Créer Paiement' }}</h2>
+    <p class="subtitle">Tous les champs sont obligatoires</p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="grid">
+        <div class="form-group">
+          <label>Date paiement</label>
+          <input formControlName="date_paiement" type="date" />
+          <small *ngIf="form.get('date_paiement')?.touched && form.get('date_paiement')?.invalid">Champ requis</small>
+        </div>
+
+        <div class="form-group">
+          <label>Mode paiement</label>
+          <select formControlName="mode">
+            <option *ngFor="let m of modes" [ngValue]="m">{{ m }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Statut paiement</label>
+          <select formControlName="statut">
+            <option *ngFor="let s of statuses" [ngValue]="s">{{ s }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Commande</label>
+          <select formControlName="commandeId">
+            <option [ngValue]="null">Sélectionner une commande</option>
+            <option *ngFor="let c of commandes" [ngValue]="c.id_commande">
+              {{ c.nomCommande }}
+            </option>
+          </select>
+          <small *ngIf="form.get('commandeId')?.touched && form.get('commandeId')?.invalid">Champ requis</small>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" type="submit" [disabled]="loading">
+          {{ loading ? 'Enregistrement...' : (isEdit ? 'Mettre à jour' : 'Créer') }}
+        </button>
+        <button class="btn-outline" type="button" (click)="onCancel()">Annuler</button>
+      </div>
+
+      <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+    </form>
+  </div>
+</div>

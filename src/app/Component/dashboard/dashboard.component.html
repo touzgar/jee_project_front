@@ -1,0 +1,63 @@
+<div class="dashboard-layout" [class.sidebar-collapsed]="!isSidebarOpen">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="brand">📦 FastTrack</div>
+      <button class="toggle-btn" (click)="toggleSidebar()">☰</button>
+    </div>
+
+    <nav class="menu">
+      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="icon">🏠</span> Dashboard
+      </a>
+
+      <a routerLink="/dashboard/fournisseurs" routerLinkActive="active">
+        <span class="icon">🏢</span> Fournisseurs
+      </a>
+      <a routerLink="/dashboard/produits" routerLinkActive="active">
+        <span class="icon">📦</span> Produits
+      </a>
+      <a routerLink="/dashboard/commandes" routerLinkActive="active">
+        <span class="icon">🧾</span> Commandes
+      </a>
+      <a routerLink="/dashboard/commandes/checkout" routerLinkActive="active" class="highlight-link">
+        <span class="icon">🛒</span> Place Order
+      </a>
+      <a routerLink="/dashboard/livraisons" routerLinkActive="active">
+        <span class="icon">🚚</span> Livraisons
+      </a>
+      <a routerLink="/dashboard/paiements" routerLinkActive="active">
+        <span class="icon">💳</span> Paiements
+      </a>
+
+      <ng-container *ngIf="authService.isAdmin()">
+        <div class="menu-section">Administration</div>
+        <a routerLink="/dashboard/transporteurs" routerLinkActive="active">
+          <span class="icon">🧑‍✈️</span> Transporteurs
+        </a>
+        <a routerLink="/dashboard/users" routerLinkActive="active">
+          <span class="icon">👥</span> Utilisateurs
+        </a>
+      </ng-container>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <header class="navbar">
+      <div class="left">
+        <button class="toggle-btn mobile" (click)="toggleSidebar()">☰</button>
+        <div class="app-name">Gestion de Commandes</div>
+      </div>
+      <div class="right">
+        <div class="user-info">
+          <span class="avatar">👤</span>
+          <span class="username">{{ authService.loggedUser || 'Utilisateur' }}</span>
+        </div>
+        <button class="logout" (click)="authService.logout()">Déconnexion</button>
+      </div>
+    </header>
+
+    <section class="content">
+      <router-outlet></router-outlet>
+    </section>
+  </div>
+</div>

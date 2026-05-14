@@ -1,0 +1,48 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h2>Lignes de Commande</h2>
+      <p class="subtitle">Détails des produits commandés</p>
+    </div>
+    <div class="actions">
+      <button class="btn-primary" (click)="onAdd()">+ Ajouter</button>
+    </div>
+  </div>
+
+  <div class="card" *ngIf="errorMessage">
+    <div class="error">{{ errorMessage }}</div>
+  </div>
+
+  <div class="card" *ngIf="loading">Chargement...</div>
+
+  <div class="card" *ngIf="!loading">
+    <table>
+      <thead>
+        <tr>
+          <th>Commande</th>
+          <th>Produit</th>
+          <th>Quantité</th>
+          <th>Prix unitaire</th>
+          <th>Total</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let l of lignes">
+          <td>{{ l.commande?.nomCommande }}</td>
+          <td>{{ produitName(l) }}</td>
+          <td>{{ l.quantite }}</td>
+          <td>{{ l.prix_unitaire | number:'1.2-2' }}</td>
+          <td>{{ total(l) | number:'1.2-2' }}</td>
+          <td class="actions-cell">
+            <button class="btn-outline" (click)="onEdit(l.id_ligne)">Modifier</button>
+            <button class="btn-danger" (click)="onDelete(l.id_ligne)">Supprimer</button>
+          </td>
+        </tr>
+        <tr *ngIf="lignes.length === 0">
+          <td colspan="6" class="empty">Aucune ligne trouvée.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
